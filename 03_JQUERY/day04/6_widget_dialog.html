@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title> new document </title>
+  <meta charset="utf-8">
+	<link rel="stylesheet" href="css/jquery-ui.css">
+	<style>
+		#validateTips{
+			background-color:lightyellow;
+			color:red;
+			display:none;
+		}
+	</style>
+ </head>
+ <body>
+  <h1>jQueryUI：Widgets —— Dialog</h1>
+	<h3>弹出式对话框</h3>
+	<a id="btnLogin" href="#">我要登录</a>
+
+	<div id="dialog-login" title="用户登录">
+		<form>
+			用户名：<input id="txtName" name="uname"><br>
+			密码名：<input id="txtPwd" type="password" name="pwd"><br>
+			<p id="validateTips"></p>
+		</form>
+	</div>
+
+	<script src="js/jquery-1.11.3.js"></script>
+	<script src="js/jquery-ui.js"></script>
+	<script>
+$(()=>{
+	var $dialogLogin=$("#dialog-login"),
+			$txtName=$("#txtName"),
+			$txtPwd=$("#txtPwd"),
+			$valiTips=$("#validateTips"),
+			$form=$("#dialog-login>form");
+			$btnLogin=$("#btnLogin");
+	//让表单编程对话框的样式
+	$dialogLogin.dialog({
+		//问题: 登录框只有点击，才显示，不点击不显示
+		autoOpen:false,//解决: 默认不打开——隐藏！
+		//为显示隐藏添加更多动画效果: 
+		/*blind,bounce,clip,drop,explode,fade,fold,highlight,puff,pulsate,scale,shake,size,slide*/
+		show: { effect: "blind", duration: 1000 },
+		hide: { effect: "explode", duration: 1000 },
+		//问题: 登录框弹出后，不允许操作网页内容
+		//模态modal
+		modal:true,
+		//问题: 没有按钮
+		buttons:{//解决:添加自定义按钮 
+			"登录":()=>{
+				if($txtName.val().trim()=="")
+					$valiTips.text("用户名不能为空").show();
+				else if($txtPwd.val().trim()=="")
+					$valiTips.text("密码不能为空").show();
+				else
+					$.ajax({
+						url:"6_login.php",
+						type:"post",
+						data:$form.serialize(),
+						success:data=>{
+							if(data.ok){
+								$dialogLogin.dialog("close");
+								$btnLogin.replaceWith(
+									`<h3>Hi ${data.msg}</h3>`);
+							}else{
+								$valiTips.text(data.msg).show();
+							}
+						}
+					});
+			},
+			"取消"(){
+				$dialogLogin.dialog("close");
+			}
+		},
+		close(){//以任何方式关闭窗口时
+			$form[0].reset();//jquery中没有reset方法
+			$valiTips.empty().hide();
+		}
+	});
+	//单击按钮才打开！
+	$btnLogin.click(()=>{
+		$dialogLogin.dialog("open");
+	})
+})
+	</script>
+ </body>
+</html>

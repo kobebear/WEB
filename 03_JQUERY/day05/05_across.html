@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+ </head>
+ <body>
+	<a href="#" class="btn btn-success">click me!</a>
+	<img src="https://codeorigin.jquery.com/jquery-wp-content/themes/jquery/images/logo-jquery.png">
+	<script
+  src="https://code.jquery.com/jquery-3.2.1.js"
+  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+  crossorigin="anonymous"></script>
+	<script>
+		$("a").hover(e=>{
+			$(e.target).toggleClass("btn-success")
+		})
+	</script>
+ </body>
+</html>

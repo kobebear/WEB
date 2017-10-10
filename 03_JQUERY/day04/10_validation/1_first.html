@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+  <head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="../css/jquery-ui.css">
+    <style>
+      input.error{
+        box-shadow: 0 0 10px red;
+      }
+      label.error{
+        background-image:url(../imgs/err.png);
+        color:red;
+        background-repeat:no-repeat;
+        background-position:left;
+        background-size: 25px 25px;
+        padding-left:25px;
+        margin-left:10px;
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="form1" method="post" action="submit.php">
+      <p>
+        <label>用户名: 
+        <input name="uname">(必填，2个以上字符)
+        </label>
+      </p>
+      <p>
+        <label>密码: 
+        <input id="upwd1" name="upwd1" type="password">(必填，6~8位数字)
+        </label>
+      </p>
+      <p>
+        <label>确认密码: 
+        <input type="password">(必填，必须和密码保持一致)
+        </label>
+      </p>
+      <p>
+        <label>电子邮件: 
+        <input name="email">(必填，但必须符合电子邮件)
+        </label>
+      </p>
+      <p>
+        <label>生日: 
+        <input name="birth">(选填，但必须符合日期格式，且已满18岁)
+        </label>
+      </p>
+      <p>
+        <label>个人主页: 
+        <input name="url">(选填，但必须符合URL格式)
+        </label>
+      </p>
+      <p>
+        <label>QQ: 
+        <input name="qq">(选填，但必须由5~11位数字组成)
+        </label>
+      </p>
+      <p>
+        <label>手机号: 
+        <input name="mobile">(选填，但必须符合中国手机号格式)
+        </label>
+      </p>
+      <p>
+        <label>我想接收来自网站的推荐消息: 
+        <input type="checkbox" id="newsletter" name="newsletter">
+				</label>
+      </p>
+      <fieldset>
+        <label>
+          <input type="checkbox" value="旅游" name="topic[]" disabled>旅游
+        </label>
+        <label>
+          <input type="checkbox" value="体育" name="topic[]" disabled>体育
+        </label>
+        <label>
+          <input type="checkbox" value="娱乐" name="topic[]" disabled>娱乐
+        </label>
+        <label for="topic[]" class="error" style="display:none"></label>
+      </fieldset>
+      <p>
+        <label><input name="agree" type="checkbox">同意</label>
+      </p>
+      <p>
+        <input type="submit" value="注册">
+      </p>
+    </form>
+		<script src="../js/jquery-3.2.1.js"></script>
+		<script src="../js/jquery-ui.js"></script>
+		<script src="../js/jquery-ui-i18n.js"></script>
+		<script src="../js/jquery.form.js"></script>
+    <script src="../js/jquery.validate.js"></script>
+    <script>
+			$("[name=birth]").datepicker({
+				changeMonth: true,
+				changeYear: true,
+				minDate:"-65Y", maxDate:"-18Y",
+			})
+			.datepicker("option",$.datepicker.regional["zh-CN"]);
+
+			$.validator.addMethod("mobile",val=>{
+				if(val.length>0)
+	return /^(\+86|0086)?\s*1[34578]\d{9}$/.test(val);
+				else return true;
+			},"手机号格式不正确");
+      $("#form1").validate({
+				submitHandler(form){
+//					$.ajax({
+//						url:"submit.php",
+//						type:"post",
+//						data:$("#form1").serialize(),
+//						success(msg){
+//							alert("注册成功!");
+//							console.log(msg);
+//						}
+//					})
+					$(form).ajaxSubmit(msg=>{
+						alert("注册成功!");
+						console.log(msg);
+					});
+				},
+				rules:{
+					uname:{
+						required:true,
+						minlength:2,
+						remote:"vali.php"
+					},
+					upwd1:{
+						required:true,
+						minlength:6,
+						maxlength:8,
+						digits:true
+					},
+					upwd2:{
+						required:true,
+						equalTo:"#upwd1"
+					},
+					email:{
+						required:true,
+						email:true,
+						remote:"vali.php"
+					},
+					birth:{ date:true },
+					url:"url",
+					qq:{
+						digits:true,
+						rangelength:[5,11]
+					},
+					mobile:"mobile",
+					"topic[]":{
+						required:"#newsletter:checked",
+						minlength:2
+					},
+					agree:"required"
+				},
+				messages:{
+					uname:{
+						required:"请指定用户名",
+						minlength:"用户名至少2个字",
+						remote:"用户名已存在"
+					},
+					upwd1:{
+						required:"请指定密码",
+						minlength:"密码至少6位",
+						maxlength:"密码最多8位",
+						digits:"只能由数字组成"
+					},
+					upwd2:{
+						required:"必填",
+						equalTo:"两次密码不一致"
+					},
+					email:{
+						required:"必填",
+						email:"邮箱格式不正确",
+						remote:"邮箱已被注册！"
+					},
+					birth:{
+						date:"日期格式不正确"
+					},
+					url:"url格式不正确",
+					qq:{
+						digits:"必须是数字组成",
+						rangelength:"qq号必须介于5~11位"
+					},
+					"topic[]":{
+						required:"必选",
+						minlength:"至少两项"
+					},
+					agree:"必须同意!"
+				}
+			});
+			$("#newsletter").click(e=>{
+				var checked=$(e.target).prop("checked");
+				$("input[name='topic[]']")
+					.prop("disabled",!checked)
+				if(!checked){
+					$("input[name='topic[]']")
+						.prop("checked",false)
+						.removeClass("error");
+					$("label[for='topic[]']").hide();
+				}
+			});
+    </script>
+  </body>
+</html>

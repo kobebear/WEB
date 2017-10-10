@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    div{
+      background-color: #aaa;
+      position: fixed; top:50%; left:50%;
+      overflow:hidden;
+    }
+    .fade{
+      height: 0; width: 0; opacity: 0; padding: 0; 
+      margin-top: 0; margin-left: 0;
+      border-width: 0;
+      /*transition:all 2s linear;*/
+    }
+    .in{
+      height: 200px; width: 400px; opacity: 1; 
+      padding: 10px; border:1px solid #000;
+      margin-top: -100px; margin-left: -200px;
+    }
+  </style>
+</head>
+<body>
+  <h1>jQueryUI-Effects</h1>
+  <h3>为addClass/removeClass/toggleClass添加动画效果</h3>
+  <button id="btn">pop</button>
+  <div class="fade">Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, voluptatum laborum nam illum veniam reiciendis. Aliquam, sequi voluptatibus inventore libero deleniti corrupti molestias, et ipsam accusantium mollitia exercitationem ratione animi!</div>
+  <!--强调：因为在jqueryui中用到了jquery，所以先引入jquery，再引入jqueryui-->
+  <script src="js/jquery-1.11.3.js"></script>
+  <!--<script src="js/jquery-ui.js"></script>-->
+  <script>
+    $("#btn").click(
+      ()=>$("div").toggleClass("in"/*,2000*/)
+    );
+  </script>
+</body>
+</html>

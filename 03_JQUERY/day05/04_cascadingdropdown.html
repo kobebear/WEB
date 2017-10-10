@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+	</head>
+	<body>
+		<select id="selCategory">
+				<option>-请选择商品类别-</option>
+				<option>正在获取商品类别...</option>
+		</select>
+		<select id="selFamily">
+				<option>-请选择系列-</option>
+		</select>
+		<select id="selProducts">
+				<option>-请选择商品名称-</option>
+		</select>
+		<script src="js/jquery-3.2.1.js"></script>
+		<script>
+$.get("data/04_cascadingdropdown/category.php")
+.then(data=>{
+	var $selCategory=$("#selCategory");
+	var html="";
+	for(var c of data){
+		html+=`<option>${c.category}</option>`
+	}
+	$selCategory.children().last().replaceWith(html);
+	$selCategory.change(e=>{
+		loadNext(
+			$(e.target),
+			$("#selFamily"),
+			"data/04_cascadingdropdown/family.php",
+			{category:$(e.target).val()},
+			"family_id",
+			"fname"
+		).then($selFamily=>{
+			$selFamily.change(e=>{
+				loadNext(
+					$(e.target),
+					$("#selProducts"),
+					"data/04_cascadingdropdown/productsByFamily.php",
+					{fid:$(e.target).val()},
+					"lid",
+					"title"
+				)
+			})
+		});
+		//为$selNext绑定change事件
+	})
+});
+function loadNext(
+	$selCurr,
+	$selNext,
+	url,
+	data,
+	valFieldName,
+	txtFieldName
+){
+	return new Promise(resolve=>{
+		$selCurr.nextAll()
+						.children(":not(:first-child)")
+						.remove();
+		if($selCurr.prop("selectedIndex")>0){
+			$selNext.append("<option>获取中...</option>");
+			$.get(url,data)
+				.then(data=>{
+					var html="";
+					for(var obj of data){
+						html+=
+							`<option value="${obj[valFieldName]}">
+								${obj[txtFieldName]}
+							 </option>`
+					}
+					$selNext.children().last()
+						.replaceWith(html);
+					resolve($selNext);
+				})
+		}
+	})
+}
+		</script>
+	</body>
+</html>

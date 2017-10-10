@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="../css/jquery.wysiwyg.css">	
+	</head>
+	<body>
+		<textarea id="wysiwyg" rows="5" cols="80"></textarea>
+		<input type="button" value="保存"/>
+		<script src="js/jquery.js"></script>
+		<script src="../js/jquery.wysiwyg.js"></script>
+		<script src="../js/wysiwyg.image.js"></script>
+		<script src="../js/wysiwyg.link.js"></script>
+		<script src="../js/wysiwyg.table.js"></script>
+		<script>
+			$("#wysiwyg").wysiwyg({
+				autoGrow: true,
+				maxHeight: 600,
+				controls: {
+					html:{visible:true}
+				}
+			});
+			$(":button").click(()=>{
+				$.ajax({
+					url:"data/wysiwyg.php",
+					data:{
+						content:
+							$("#wysiwyg").wysiwyg("getContent")
+//$("#wysiwyg").wysiwyg("setContent","HTML代码片段")
+					}
+				})
+			})
+			//jquery.js -> 网页同文件夹下
+			//jquery.wysiwyg.js -> day04/js/替换
+			//两张图片 -> day04/css/
+		</script>
+	</body>
+</html>

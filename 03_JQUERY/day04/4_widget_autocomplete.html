@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title> new document </title>
+  <meta charset="utf-8">
+	<link rel="stylesheet" href="css/jquery-ui.css">
+ </head>
+ <body>
+  <h1>jQueryUI：Widgets —— Autocomplete</h1>
+	<input id="txtSearch" placeholder="请输入搜索关键词" style="width:300px;overflow:hidden;text-overflow:ellipsis;">
+
+	<script src="js/jquery-1.11.3.js"></script>
+	<script src="js/jquery-ui.js"></script>
+	<script>
+		$("#txtSearch").autocomplete({
+			source:"4_autocomplete.php",
+			//当选中某一项时，自动触发
+			/*select: function( event, ui ) {
+				//ui的item始终保存着从服务器获得的每个数组元素对象
+				//item.属性名与服务器端$sql中的字段名保持一致即可
+        $(this).val( ui.item.title );
+				alert("lid:"+ui.item.lid);
+        return false;
+      }*/
+		})//下方添加自定义li内容格式后，必须在上方同时定义select
+		/*.autocomplete("instance")
+			._renderItem=function($ul,item){
+				var $li=$(`<li><div>${item.title} 销量: ${item.sold_count}</div></li>`);
+				//强调: li下必须放一个div，再在div内写内容
+				$ul.append($li);
+				return $li;
+		}*/
+	</script>
+ </body>
+</html>

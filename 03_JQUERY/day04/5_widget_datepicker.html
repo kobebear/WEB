@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title> new document </title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="css/jquery-ui.css">
+ </head>
+ <body>
+  <h1>jQueryUI：Widgets —— Datepicker</h1>
+  生日: <input id="txtBirth">
+  <script src="js/jquery-1.11.3.js"></script>
+  <script src="js/jquery-ui.js"></script>
+  <script src="js/jquery-ui-i18n.js"></script>
+  <script>
+    $("#txtBirth").datepicker({
+      //问题: 不能随意选择年份和月份，不方便
+      changeMonth: true,
+      //每次只能显示十个，必须点最上边一年，才能切换前一组10年
+      changeYear: true,
+      //问题: 限制18~65岁之间
+      minDate:"-65Y", maxDate:"-18Y",
+    })//问题: 英文，看不懂: 需要额外加载jquery-ui-i18n.js
+    .datepicker("option",$.datepicker.regional["zh-CN"]);
+  </script>
+ </body>
+</html>

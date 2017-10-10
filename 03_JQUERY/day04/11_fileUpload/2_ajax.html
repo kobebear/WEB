@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Html5 Ajax 上传文件</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <form id="form1">
+      <label>选择本地文件:
+        <input type="file" name="file"/> 
+      </label>
+      <br />
+      <input type="button" name="submit" value="上传"/>
+    </form>
+      <script src="../js/jquery-3.2.1.js"></script>
+      <script>
+        $("#form1>:button").click(()=>{
+					$.ajax({
+						url:"upload_file.php",
+						type:"POST",
+						data:new FormData($("#form1")[0]),
+						processData:false,
+						contentType:false,
+						success(data){
+							console.log(data);
+						}
+					})
+				});
+      </script>
+    </body>
+</html>
