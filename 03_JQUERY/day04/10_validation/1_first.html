@@ -33,7 +33,7 @@
       </p>
       <p>
         <label>确认密码: 
-        <input type="password">(必填，必须和密码保持一致)
+        <input name="upwd2" type="password">(必填，必须和密码保持一致)
         </label>
       </p>
       <p>
@@ -111,12 +111,11 @@
 //						data:$("#form1").serialize(),
 //						success(msg){
 //							alert("注册成功!");
-//							console.log(msg);
 //						}
 //					})
 					$(form).ajaxSubmit(msg=>{
 						alert("注册成功!");
-						console.log(msg);
+						$(form).resetForm();
 					});
 				},
 				rules:{

@@ -1,4 +1,9 @@
 <?php
-header("Content-Type:text/plain;charset=UTF-8");
+header("Content-Type:text/plain");
+require_once("../init.php");
 @$uname=$_REQUEST["uname"];
-echo "Hi $uname,您的个人信息是: ".json_encode($_REQUEST);
+@$upwd1=$_REQUEST["upwd1"];
+@$email=$_REQUEST["email"];
+$sql="insert into xz_user(uid,uname,upwd,email) values(null,'$uname','$email')";
+sql_execute($sql);
+echo "true";
