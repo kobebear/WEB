@@ -1,15 +1,15 @@
 (()=>{
   $("input[name=uname]").blur(e=>{
-    vali($(e.target),"1_vali.php");
+    vali($(e.target));
   })
-  function vali($txt,url){
+  function vali($txt){
     return new Promise(resolve=>{
       var $span=$txt.next();
       if($txt.val()==""){
         $span.removeClass("right").addClass("error")
               .text("不能为空!");
       }else{
-        $.get(url,$txt.attr("name")+"="+$txt.val())
+        $.get("1_vali.php",$txt.attr("name")+"="+$txt.val())
           .then(data=>{//data:"true"/"false"
           if(data=="true"){
             $span.removeClass("error")
@@ -24,7 +24,7 @@
     })
   }
   $("input[name=email]").blur(e=>{
-    vali($(e.target),"1_vali.php");
+    vali($(e.target));
   })
   function checkPwd(){
     var $upwd=$("input[name=upwd]"),
@@ -45,10 +45,8 @@
   $form.submit(e=>{
     e.preventDefault();
     Promise.all([
-      vali($("input[name=uname]"),
-            "1_vali.php"),
-      vali($("input[name=email]"),
-            "1_vali.php")
+      vali($("input[name=uname]")),
+      vali($("input[name=email]"))
     ]).then(()=>{
       if(checkPwd()){
 //        $.post("1_register.php",
