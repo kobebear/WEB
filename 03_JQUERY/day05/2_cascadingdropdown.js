@@ -1,22 +1,5 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-	</head>
-	<body>
-		<select id="selCategory">
-				<option>-请选择商品类别-</option>
-				<option>正在获取商品类别...</option>
-		</select>
-		<select id="selFamily">
-				<option>-请选择系列-</option>
-		</select>
-		<select id="selProducts">
-				<option>-请选择商品名称-</option>
-		</select>
-		<script src="js/jquery-3.2.1.js"></script>
-		<script>
-$.get("data/04_cascadingdropdown/category.php")
+$(()=>{
+$.get("2_category.php")
 .then(data=>{
 	var $selCategory=$("#selCategory");
 	var html="";
@@ -28,7 +11,7 @@ $.get("data/04_cascadingdropdown/category.php")
 		loadNext(
 			$(e.target),
 			$("#selFamily"),
-			"data/04_cascadingdropdown/family.php",
+			"2_family.php",
 			{category:$(e.target).val()},
 			"family_id",
 			"fname"
@@ -37,7 +20,7 @@ $.get("data/04_cascadingdropdown/category.php")
 				loadNext(
 					$(e.target),
 					$("#selProducts"),
-					"data/04_cascadingdropdown/productsByFamily.php",
+					"2_productsByFamily.php",
 					{fid:$(e.target).val()},
 					"lid",
 					"title"
@@ -77,6 +60,4 @@ function loadNext(
 		}
 	})
 }
-		</script>
-	</body>
-</html>
+})

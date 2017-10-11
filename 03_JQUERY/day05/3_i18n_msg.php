@@ -1,6 +1,5 @@
 <?php
-header("Content-Type:application/javascript;charset=UTF-8");
-$fn=$_REQUEST["callback"];//收到函数名
+header("Content-Type:application/javascript");
 $list=getallheaders();
 $lang=$list["Accept-Language"];
 $firstLang=substr($lang,0,2);
@@ -13,5 +12,5 @@ else if($firstLang=="ko")
   $hello="안녕하세요";
 else if($firstLang=="ja")
   $hello="こんにちは";
-sleep(10);
-echo "$fn('$hello')";//返回js语句
+
+echo '$("body").prepend("<h1>'.$hello.'</h1>")';

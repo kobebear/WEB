@@ -1,6 +1,6 @@
 (()=>{
   $("input[name=uname]").blur(e=>{
-    vali($(e.target),"data/02_register/vali.php");
+    vali($(e.target),"1_vali.php");
   })
   function vali($txt,url){
     return new Promise(resolve=>{
@@ -24,7 +24,7 @@
     })
   }
   $("input[name=email]").blur(e=>{
-    vali($(e.target),"data/02_register/vali.php");
+    vali($(e.target),"1_vali.php");
   })
   function checkPwd(){
     var $upwd=$("input[name=upwd]"),
@@ -46,20 +46,22 @@
     e.preventDefault();
     Promise.all([
       vali($("input[name=uname]"),
-            "data/02_register/vali.php"),
+            "1_vali.php"),
       vali($("input[name=email]"),
-            "data/02_register/vali.php")
+            "1_vali.php")
     ]).then(()=>{
       if(checkPwd()){
-//        $.post("data/02_register/register.php",
+//        $.post("1_register.php",
 //               $("#form1").serialize())
 //          .then(data=>{
 //          alert(data);
+//          $form.find("p>input+span").empty();
 //          $form[0].reset();
 //        })
         $form.ajaxSubmit(data=>{
           alert(data);
           $form.resetForm();
+          $form.find("p>input+span").empty();
         })
       }
     })

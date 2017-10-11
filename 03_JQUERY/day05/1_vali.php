@@ -1,6 +1,6 @@
 <?php
 header("Content-Type:text/plain;charset=UTF-8");
-require_once("../init.php");
+require_once("./init.php");
 @$uname=$_REQUEST["uname"];
 if($uname){
   $sql="select * from xz_user where uname='$uname'";
