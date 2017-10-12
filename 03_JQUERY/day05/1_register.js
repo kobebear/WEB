@@ -1,34 +1,30 @@
 (()=>{
-  var result=true;
   $("input[name=uname]").blur(e=>{
-    vali($(e.target),"data/02_register/vali.php");
+    vali($(e.target));
   })
-  function vali($txt,url){
+  function vali($txt){
     return new Promise(resolve=>{
       var $span=$txt.next();
       if($txt.val()==""){
         $span.removeClass("right").addClass("error")
               .text("不能为空!");
-        result=false;
       }else{
-        $.get(url,$txt.attr("name")+"="+$txt.val())
+        $.get("1_vali.php",$txt.attr("name")+"="+$txt.val())
           .then(data=>{//data:"true"/"false"
           if(data=="true"){
             $span.removeClass("error")
                   .addClass("right").text("可用");
-            result=true;
             resolve();
           }else{
             $span.removeClass("right")
                   .addClass("error").text("不可用");
-            result=false;
           }
         })
       }
     })
   }
   $("input[name=email]").blur(e=>{
-    vali($(e.target),"data/02_register/vali.php");
+    vali($(e.target));
   })
   function checkPwd(){
     var $upwd=$("input[name=upwd]"),
@@ -37,32 +33,33 @@
     if($upwd.val()!=$upwd2.val()){
       $span.addClass("error")
             .text("两次输入的密码不一致!");
-      result=false;
+      return false;
     }else{
       $span.removeClass("error").text("");
-      result=true;
+      return true;
     }
   }
   $("input[name=upwd]").blur(checkPwd);
   $("#upwd2").blur(checkPwd);
-  
-  $("#form1").submit(e=>{
+  var $form=$("#form1");
+  $form.submit(e=>{
     e.preventDefault();
     Promise.all([
-      vali($("input[name=uname]"),
-            "data/02_register/vali.php"),
-      vali($("input[name=email]"),
-            "data/02_register/vali.php")
+      vali($("input[name=uname]")),
+      vali($("input[name=email]"))
     ]).then(()=>{
-      checkPwd();
-      if(result){
-//        $.post("data/02_register/register.php",
+      if(checkPwd()){
+//        $.post("1_register.php",
 //               $("#form1").serialize())
 //          .then(data=>{
 //          alert(data);
+//          $form.find("p>input+span").empty();
+//          $form[0].reset();
 //        })
-        $(e.target).ajaxSubmit(data=>{
+        $form.ajaxSubmit(data=>{
           alert(data);
+          $form.resetForm();
+          $form.find("p>input+span").empty();
         })
       }
     })
