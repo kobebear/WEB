@@ -16,6 +16,11 @@
   <h1>jQueryUI：Widgets —— Dialog</h1>
 	<h3>弹出式对话框</h3>
 	<a id="btnLogin" href="#">我要登录</a>
+	<h3 id="welcome">
+		Hi,<span></span>
+		|
+		<a href="#">注销</a>
+	</h3>
 
 	<div id="dialog-login" title="用户登录">
 		<form>
@@ -30,10 +35,13 @@
 	<script>
 $(()=>{
 	var $dialogLogin=$("#dialog-login"),
+	    $welcome=$("#welcome"),
+			$uname=$welcome.children("span"),
+			$logout=$welcome.children("a"),
 			$txtName=$("#txtName"),
 			$txtPwd=$("#txtPwd"),
 			$valiTips=$("#validateTips"),
-			$form=$("#dialog-login>form");
+			$form=$("#dialog-login>form"),
 			$btnLogin=$("#btnLogin");
 	//让表单编程对话框的样式
 	$dialogLogin.dialog({
@@ -61,17 +69,16 @@ $(()=>{
 						success:data=>{
 							if(data.ok){
 								$dialogLogin.dialog("close");
-								$btnLogin.replaceWith(
-									`<h3>Hi ${data.msg}</h3>`);
+								$btnLogin.hide();
+								$uname.html(data.msg);
+								$welcome.show();
 							}else{
 								$valiTips.text(data.msg).show();
 							}
 						}
 					});
 			},
-			"取消"(){
-				$dialogLogin.dialog("close");
-			}
+			"取消"(){ $dialogLogin.dialog("close"); }
 		},
 		close(){//以任何方式关闭窗口时
 			$form[0].reset();//jquery中没有reset方法
