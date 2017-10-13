@@ -1,5 +1,6 @@
 <?php
-header("Content-Type:application/javascript");
+//header("Content-Type:application/javascript");
+header("Content-Type:text/plain");
 $list=getallheaders();
 $lang=$list["Accept-Language"];
 $firstLang=substr($lang,0,2);
@@ -13,4 +14,5 @@ else if($firstLang=="ko")
 else if($firstLang=="ja")
   $hello="こんにちは";
 
-echo '$("body").prepend("<h1>'.$hello.'</h1>")';
+//echo '$("body").prepend("<h1>'.$hello.'</h1>")';
+echo $hello;
